@@ -9,12 +9,14 @@ import bookingRoutes from './Booking/booking.router';
 import paymentRoutes from './Payment/payment.router';
 import maintenanceRoutes from './Maintenance/maintenance.router';
 import insuranceRoutes from './Insurance/insurance.router';
+import user from './auth/auth.router';
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json()); // Middleware to parse JSON bodies
-//Routes
+//Routes'
+user(app)
 app.use('/api/cars', carRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/locations', locationRoutes);

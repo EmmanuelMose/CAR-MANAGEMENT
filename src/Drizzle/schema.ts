@@ -2,7 +2,6 @@
 import { relations } from "drizzle-orm";
 import { text, varchar, serial, pgTable, decimal, integer, boolean, date } from "drizzle-orm/pg-core";
 
-
 // customer table
 export const CustomerTable = pgTable("customer", {
     customerID: serial("customerID").primaryKey(),
@@ -11,7 +10,9 @@ export const CustomerTable = pgTable("customer", {
     email: varchar("Email", { length: 100 }).notNull().unique(),
     phoneNumber: text("PhoneNumber"),
     password: varchar("Password", { length: 255 }).notNull(),
-    address: varchar("Address", { length: 255 })
+    address: varchar("Address", { length: 255 }),
+    isVerified: boolean("is_verified").default(false),
+    verificationCode: varchar("VerificationCode", { length: 50 }),
 });
 
 // Location Table
@@ -160,6 +161,8 @@ export const InsuranceRelations = relations(InsuranceTable, ({ one }) => ({
 }));
 
 // Types
+export type TIUser= typeof CustomerTable.$inferInsert
+export type TSUser = typeof CustomerTable.$inferSelect
 export type TICustomer = typeof CustomerTable.$inferInsert
 export type TSCustomer = typeof CustomerTable.$inferSelect
 export type TILocation = typeof LocationTable.$inferInsert
