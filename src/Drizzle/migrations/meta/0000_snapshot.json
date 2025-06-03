@@ -1,5 +1,5 @@
 {
-  "id": "0a080540-5055-4a32-b7c8-ce6cc73f81e1",
+  "id": "867b6ce5-0f65-4c7a-a808-a0890dc5dee2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -193,6 +193,19 @@
         "Address": {
           "name": "Address",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_verified": {
+          "name": "is_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "VerificationCode": {
+          "name": "VerificationCode",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         }

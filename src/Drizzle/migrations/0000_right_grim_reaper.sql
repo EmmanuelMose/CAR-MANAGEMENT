@@ -25,6 +25,8 @@ CREATE TABLE "customer" (
 	"PhoneNumber" text,
 	"Password" varchar(255) NOT NULL,
 	"Address" varchar(255),
+	"is_verified" boolean DEFAULT false,
+	"VerificationCode" varchar(50),
 	CONSTRAINT "customer_Email_unique" UNIQUE("Email")
 );
 --> statement-breakpoint
