@@ -8,5 +8,6 @@ router.get('/:id', controller.getPaymentById);
 router.post('/', controller.createPayment);
 router.put('/:id', controller.updatePayment);
 router.delete('/:id', controller.deletePayment);
+router.get('/payments-with-booking', controller.handleGetPaymentsWithBooking);
 
 export default router;

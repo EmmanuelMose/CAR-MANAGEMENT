@@ -1,5 +1,5 @@
 import db  from '../Drizzle/db';
-import { LocationTable } from '../Drizzle/schema';
+import { CarTable, LocationTable } from '../Drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 // Get all locations
@@ -32,4 +32,26 @@ export const update = async (id: number, data: any) => {
 // Delete a location
 export const remove = async (id: number) => {
   await db.delete(LocationTable).where(eq(LocationTable.locationID, id));
+};
+
+export const getAllLocationsWithCarsService = async () => {
+  return await db.select({
+    locationID: LocationTable.locationID,
+    locationName: LocationTable.locationName,
+    address: LocationTable.address,
+    carID: CarTable.carID,
+    carModel: CarTable.carModel,
+  })
+  .from(LocationTable)
+  .leftJoin(CarTable as any, eq(LocationTable.locationID, CarTable.locationID));
+};
+export const getLocationsWithAssignedCarsService = async () => {
+  return await db.select({
+    locationID: LocationTable.locationID,
+    locationName: LocationTable.locationName,
+    carModel: CarTable.carModel,
+    year: CarTable.year,
+  })
+  .from(LocationTable)
+  .innerJoin(CarTable as any, eq(LocationTable.locationID, CarTable.locationID));
 };

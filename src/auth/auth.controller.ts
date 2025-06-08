@@ -119,6 +119,8 @@ export const loginUserController = async (req: Request, res: Response) => {
             customerID: userExist.customerID, //sub means subject, which is the user ID - it helps identify the user
             firstName: userExist.firstName,
             lastName: userExist.lastName,
+            email: userExist.email,
+            role: userExist.role,// role of the user
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3 // 3 days expiration
 
         }
@@ -138,7 +140,8 @@ export const loginUserController = async (req: Request, res: Response) => {
                 customerID: userExist.customerID,
                 first_name: userExist.firstName,
                 last_name: userExist.lastName,
-                email: userExist.email
+                email: userExist.email,
+                role: userExist.role,
             }
         })
 

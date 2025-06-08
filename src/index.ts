@@ -10,6 +10,8 @@ import paymentRoutes from './Payment/payment.router';
 import maintenanceRoutes from './Maintenance/maintenance.router';
 import insuranceRoutes from './Insurance/insurance.router';
 import user from './auth/auth.router';
+import router from './Car/car.router';
+  
 
 const app = express();
 const PORT = 3000;
@@ -26,6 +28,8 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/insurance', insuranceRoutes);
 
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as paymentService from './payment.service';
-
+import { PaymentTable ,BookingsTable} from '../Drizzle/schema';
+import { eq } from 'drizzle-orm';
 // Get all payments
 export const getAllPayments = async (req: Request, res: Response) => {
   try {
@@ -48,5 +49,13 @@ export const deletePayment = async (req: Request, res: Response) => {
     res.json({ message: "Payment deleted" });
   } catch {
     res.status(500).json({ error: "Failed to delete payment" });
+  }
+};
+export const handleGetPaymentsWithBooking = async (_req: Request, res: Response) => {
+  try {
+    const result = await paymentService.getPaymentsWithBooking();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch payments with booking.' });
   }
 };

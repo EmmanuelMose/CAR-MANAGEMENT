@@ -1,5 +1,5 @@
 import  db from '../Drizzle/db';
-import { ReservationTable } from '../Drizzle/schema';
+import { CarTable, CustomerTable, ReservationTable } from '../Drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 
@@ -34,3 +34,4 @@ export const update = async (id: number, data: any) => {
 export const remove = async (id: number) => {
   await db.delete(ReservationTable).where(eq(ReservationTable.reservationID, id));
 };
+

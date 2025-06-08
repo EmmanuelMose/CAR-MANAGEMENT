@@ -9,4 +9,5 @@ router.post('/', controller.createBooking);
 router.put('/:id', controller.updateBooking);
 router.delete('/:id', controller.deleteBooking);
 
+
 export default router;

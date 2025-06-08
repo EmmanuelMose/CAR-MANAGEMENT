@@ -41,12 +41,7 @@ export const updateBooking = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a booking
-export const deleteBooking = async (req: Request, res: Response) => {
-  try {
-    await bookingService.remove(Number(req.params.id));
-    res.json({ message: "Booking deleted" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to delete booking" });
-  }
-};
+export function deleteBooking(arg0: string, deleteBooking: any) {
+    throw new Error('Function not implemented.');
+}
+

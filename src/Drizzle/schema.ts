@@ -1,6 +1,10 @@
 
 import { relations } from "drizzle-orm";
+import { pgEnum } from "drizzle-orm/pg-core";
 import { text, varchar, serial, pgTable, decimal, integer, boolean, date } from "drizzle-orm/pg-core";
+ 
+//role enum
+export const RoleEnum = pgEnum("role" ,["admin" ,"user"])
 
 // customer table
 export const CustomerTable = pgTable("customer", {
@@ -13,6 +17,7 @@ export const CustomerTable = pgTable("customer", {
     address: varchar("Address", { length: 255 }),
     isVerified: boolean("is_verified").default(false),
     verificationCode: varchar("VerificationCode", { length: 50 }),
+    role: RoleEnum("Role").default("user")// default role is user
 });
 
 // Location Table

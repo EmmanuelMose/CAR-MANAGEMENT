@@ -1,5 +1,5 @@
 import db from '../Drizzle/db';
-import { PaymentTable } from '../Drizzle/schema';
+import { BookingsTable, PaymentTable } from '../Drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 // Get all payments
@@ -32,4 +32,11 @@ export const update = async (id: number, data: any) => {
 // Delete a payment
 export const remove = async (id: number) => {
   await db.delete(PaymentTable).where(eq(PaymentTable.paymentID, id));
+};
+// JOIN: payment + booking
+export const getPaymentsWithBooking = async () => {
+  return db
+    .select()
+    .from(PaymentTable)
+    .innerJoin(BookingsTable as any, eq(PaymentTable.bookingID, BookingsTable.bookingID));
 };

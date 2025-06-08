@@ -1,5 +1,65 @@
+import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import * as customerService from './customer.service';
+import jwt from 'jsonwebtoken';
+import {getCustomerWithBookings, getCustomerWithReservations}  from "./customer.service";
+
+
+
+
+export const getCustomerWithReservationsController = async (req: Request, res: Response) => {
+  try {
+    const customerID = parseInt(req.params.id);
+
+    if (isNaN(customerID)) {
+      return res.status(400).json({ error: "Invalid customer ID" });
+    }
+
+    const customer: any = await getCustomerWithReservations(customerID);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found or no reservations available." });
+    }
+
+    return res.status(200).json({ data: customer });
+  } catch (error) {
+    console.error("Error in getCustomerWithReservationsController:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
+
+
+
+
+export const getCustomerWithBookingsController = async (req: Request, res: Response) => {
+  try {
+    const customerID = parseInt(req.params.id);
+
+    if (isNaN(customerID)) {
+      return res.status(400).json({ error: "Invalid customer ID" });
+    }
+
+    const customer: any = await getCustomerWithBookings(customerID);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found or no bookings available." });
+    }
+
+    return res.status(200).json({ data: customer });
+  } catch (error) {
+    console.error("Error in getBookingWithReservationsController:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
+
+
+
 
 // GET all customers
 export const getAllCustomers = async (req: Request, res: Response) => {

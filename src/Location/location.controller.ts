@@ -50,3 +50,27 @@ export const deleteLocation = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete location" });
   }
 };
+export const getAllLocationsWithCarsController = async (_req: Request, res: Response) => {
+  try {
+    const locations = await getAllLocationsWithCarsService();
+    res.json(locations);
+  } catch (error) {
+    console.error("Error fetching locations with cars:", error);
+    res.status(500).json({ message: "Failed to fetch locations with cars", error });
+  }
+};
+export const getLocationsWithAssignedCarsController = async (_req: Request, res: Response) => {
+  try {
+    const locations = await getAllLocationsWithCarsService();
+    res.json(locations);
+  } catch (error) {
+    console.error("Error fetching assigned car locations:", error);
+    res.status(500).json({ message: "Failed to fetch locations with assigned cars", error });
+  }
+};
+
+
+function getAllLocationsWithCarsService() {
+  throw new Error('Function not implemented.');
+}
+

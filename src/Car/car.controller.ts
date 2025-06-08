@@ -52,3 +52,25 @@ export const deleteCar = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to delete car" });
   }
 };
+
+// Get all cars with their location details
+export const getAllCarsWithLocation = async (req: Request, res: Response) => {
+  try {
+    const cars = await carService.getAllCarsWithLocation();
+    res.json(cars);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch cars with location details" });
+  }
+};
+
+
+
+// Get cars with booking statistics
+export const getCarsWithBookingStats = async (req: Request, res: Response) => {
+  try {
+    const stats = await carService.getCarsWithBookingStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch car booking statistics" });
+  }
+};
