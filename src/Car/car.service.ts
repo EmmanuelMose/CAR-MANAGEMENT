@@ -1,38 +1,46 @@
 import  db  from '../Drizzle/db';
-import { BookingsTable, CarTable, LocationTable } from '../Drizzle/schema';
+import { BookingsTable, CarTable, LocationTable, TICar } from '../Drizzle/schema';
 import { count, eq, sum } from 'drizzle-orm';
 
 // Get all cars
 export const getAll = async () => {
-  return await db.select().from(CarTable);
-};
+    const cars=await db.query.CarTable.findMany()
+    return cars
+}
 
-// Get a car by ID
+
+// Get car by ID
 export const getById = async (id: number) => {
-  const result = await db.select().from(CarTable).where(eq(CarTable.carID, id));
-  return result[0];
-};
+    const car = await db.query.CarTable.findFirst({
+        where: eq(CarTable.carID, id)
+    })
 
-// Create a new car
-export const createCarService = async (data: any) => {
-  const result = await db.insert(CarTable).values(data).returning();
-  return result[0];
-};
+    return car
+}
 
-// Update an existing car
-export const update = async (id: number, data: any) => {
-  const result = await db
-    .update(CarTable)
-    .set(data)
-    .where(eq(CarTable.carID, id))
-    .returning();
-  return result[0];
-};
 
-// Delete a car
+//create a new car
+export const createCarService = async (car: TICar) => {
+    const [inserted] = await db.insert(CarTable).values(car).returning()
+    if (inserted) {
+        return inserted;
+    }
+    return null
+}
+
+
+// Update car by ID
+export const update = async (id: number, car: TICar) => {
+    await db.update(CarTable).set(car).where(eq(CarTable.carID, id))
+
+return  "Car updated successfully";
+}
+
+// Delete car by ID
 export const remove = async (id: number) => {
-  await db.delete(CarTable).where(eq(CarTable.carID, id));
-};
+    await db.delete(CarTable).where(eq(CarTable.carID, id)).returning()
+    return "Car deleted successfully";
+}   
 
 // Get all cars with their location details
 export const getAllCarsWithLocation = async () => {

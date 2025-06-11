@@ -1,35 +1,43 @@
 import  db  from '../Drizzle/db';
-import { MaintenanceTable } from '../Drizzle/schema';
+import { MaintenanceTable, TIMaintenance } from '../Drizzle/schema';
 import { eq } from 'drizzle-orm';
 
-// Fetch all maintenance records
+// Get all maintenance records
 export const getAll = async () => {
-  return await db.select().from(MaintenanceTable);
-};
+    const maintenances = await db.query.MaintenanceTable.findMany();
+    return maintenances;
+}
 
-// Fetch a specific record by ID
+
+// Get maintenance record by ID
 export const getById = async (id: number) => {
-  const result = await db.select().from(MaintenanceTable).where(eq(MaintenanceTable.maintenanceID, id));
-  return result[0];
-};
+    const maintenance = await db.query.MaintenanceTable.findFirst({
+        where: eq(MaintenanceTable.maintenanceID, id)
+    });
+    return maintenance;
+}
+// Create a new maintenance record
+export const create = async (maintenance: TIMaintenance) => {
+    const [inserted] = await db.insert(MaintenanceTable).values(maintenance).returning();
+    if (inserted) {
+        return inserted;
+    }
+    return null;
+}
 
-// Insert a new maintenance record
-export const create = async (data: any) => {
-  const result = await db.insert(MaintenanceTable).values(data).returning();
-  return result[0];
-};
+// Update maintenance record by ID
+export const update = async (MaintenanceId: number, maintenance: TIMaintenance) => {
+    await db.update(MaintenanceTable).set(maintenance).where(eq(MaintenanceTable.maintenanceID, MaintenanceId));
+    return "Maintenance updated successfully";
 
-// Update maintenance record
-export const update = async (id: number, data: any) => {
-  const result = await db
-    .update(MaintenanceTable)
-    .set(data)
-    .where(eq(MaintenanceTable.maintenanceID, id))
-    .returning();
-  return result[0];
-};
+}
 
-// Delete a maintenance record
-export const remove = async (id: number) => {
-  await db.delete(MaintenanceTable).where(eq(MaintenanceTable.maintenanceID, id));
+
+// Delete maintenance record by ID
+export const remove = async (maintenanceID: number) => {
+    await db
+    .delete(MaintenanceTable)
+    .where(eq(MaintenanceTable.maintenanceID, maintenanceID));
+
+    return "Maintenance record deleted successfully";
 };

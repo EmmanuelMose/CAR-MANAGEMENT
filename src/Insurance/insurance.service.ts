@@ -1,35 +1,49 @@
-import  db  from '../Drizzle/db';
-import { InsuranceTable } from '../Drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
+import db from "../Drizzle/db";
+import { InsuranceTable, TIInsurance } from "../Drizzle/schema";
 
-// Get all insurance records
+// Create a new insurance policy
+export const create = async (insurance: TIInsurance) => {
+  const [inserted] = await db.insert(InsuranceTable).values(insurance).returning();
+  if (inserted) {
+    return inserted;
+  }
+  return null;
+}
+
+// Get all insurance policies
 export const getAll = async () => {
-  return await db.select().from(InsuranceTable);
-};
+    const insurances = await db.query.InsuranceTable.findMany();
+    return insurances;
 
-// Get one insurance record by ID
+}
+
+
+//get insurance by id
 export const getById = async (id: number) => {
-  const result = await db.select().from(InsuranceTable).where(eq(InsuranceTable.insuranceID, id));
-  return result[0];
+const insurance=await db.query.InsuranceTable.findFirst({
+    where: eq(InsuranceTable.insuranceID, id)
+})
+return insurance
+}
+
+
+//update insurance by id
+export const update = async (id: number, insurance: TIInsurance) => {
+    await db.update(InsuranceTable).set(insurance).where(eq(InsuranceTable.insuranceID, id))
+    return "Insurance updated successfully";
+}
+
+
+//delete insurance by id
+export const remove = async (insuranceID: number, p0: { insuranceID: number; carID: number; insuranceProvider: string; policyNumber: string; startDate: string; endDate: null; }) => {
+    await db
+    .delete(InsuranceTable)
+    .where(eq(InsuranceTable.insuranceID, insuranceID))
+
+    return "Insurance policy deleted successfully";
 };
 
-// Create a new insurance record
-export const create = async (data: any) => {
-  const result = await db.insert(InsuranceTable).values(data).returning();
-  return result[0];
-};
 
-// Update insurance record
-export const update = async (id: number, data: any) => {
-  const result = await db
-    .update(InsuranceTable)
-    .set(data)
-    .where(eq(InsuranceTable.insuranceID, id))
-    .returning();
-  return result[0];
-};
 
-// Delete insurance record
-export const remove = async (id: number) => {
-  await db.delete(InsuranceTable).where(eq(InsuranceTable.insuranceID, id));
-};
+

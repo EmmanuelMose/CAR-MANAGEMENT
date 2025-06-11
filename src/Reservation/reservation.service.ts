@@ -1,25 +1,32 @@
 import  db from '../Drizzle/db';
-import { CarTable, CustomerTable, ReservationTable } from '../Drizzle/schema';
+import { CarTable, CustomerTable, ReservationTable, TIReservation } from '../Drizzle/schema';
 import { eq } from 'drizzle-orm';
 
 
 // Get all reservations
 export const getAll = async () => {
-  return await db.select().from(ReservationTable);
-};
+    const reservations = await db.query.ReservationTable.findMany();
+    return reservations;
+    }
 
-// Get a reservation by ID
-export const getById = async (id: number) => {
-  const result = await db.select().from(ReservationTable).where(eq(ReservationTable.reservationID, id));
-  return result[0];
-};
+
+    // Get reservation by ID
+    export const getById=async (id:number) => {
+        const reservation=await db.query.ReservationTable.findFirst({
+            where:eq(ReservationTable.reservationID,id)
+        })
+        return reservation
+    
+    }
 
 // Create a new reservation
-export const create = async (data: any) => {
-  const result = await db.insert(ReservationTable).values(data).returning();
-  return result[0];
-};
-
+export const create = async (reservation: TIReservation) => {
+  const [inserted] = await db.insert(ReservationTable).values(reservation).returning();
+  if (inserted) {
+    return inserted;
+  }
+  return null;
+}
 // Update a reservation
 export const update = async (id: number, data: any) => {
   const result = await db
@@ -30,8 +37,8 @@ export const update = async (id: number, data: any) => {
   return result[0];
 };
 
-// Delete a reservation
-export const remove = async (id: number) => {
-  await db.delete(ReservationTable).where(eq(ReservationTable.reservationID, id));
-};
-
+//delete reservation by ID
+    export const remove=async (id:number)=> {
+        await db.delete(ReservationTable).where(eq(ReservationTable.reservationID, id));
+        return "Reservation deleted successfully";
+    }

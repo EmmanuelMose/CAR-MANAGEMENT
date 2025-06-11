@@ -23,12 +23,12 @@ router.delete('/:id', deleteCustomer,adminRoleAuth);
 
 
 
-router.route("/customer/reservation/:id").get(
+router.route("/reservation/:id").get(
     async (req, res, next) => {
 
         try{
 
-            
+
             await getCustomerWithBookingsController(req, res);
 
         }
@@ -42,7 +42,7 @@ router.route("/customer/reservation/:id").get(
 
 
 //Get customer with booking ID
-router.route("/customer/booking/:id").get(
+router.route("/booking/:id").get(
     async (req, res, next) => {
 
         try{
