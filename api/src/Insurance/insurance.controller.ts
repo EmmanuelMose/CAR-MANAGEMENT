@@ -44,7 +44,7 @@ export const updateInsurance = async (req: Request, res: Response) => {
 // Delete insurance record
 export const deleteInsurance = async (req: Request, res: Response) => {
   try {
-    await insuranceService.remove(Number(req.params.id));
+    await insuranceService.remove(Number(req.params.id), req.body); // ✅ Added second argument
     res.json({ message: "Insurance record deleted" });
   } catch {
     res.status(500).json({ error: "Failed to delete insurance record" });
